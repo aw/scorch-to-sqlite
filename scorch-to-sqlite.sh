@@ -29,5 +29,8 @@ echo 'file,hash,size,mode,mtime,inode' > "$scorch_csv"
 echo "Decompressing DB: $scorch_db"
 gzip -d -k -c "$scorch_db" >> "$scorch_csv"
 
+echo "Backing up SQLite DB: $scorch_sql"
+mv -v "$scorch_sql" "${scorch_sql}-`date +%s`"
+
 echo "Importing DB into SQLite: $scorch_sql"
 sqlite3 -csv "$scorch_sql" ".import $scorch_csv scorch"
